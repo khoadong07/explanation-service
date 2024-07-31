@@ -11,16 +11,16 @@ services:
     env_file: .env
     networks:
       ai-network:
-        ipv4_address: "10.20.0.15"
+        ipv4_address: "170.20.0.15"
 
   redis:
     image: redis:latest
     container_name: redis-server
     networks:
       ai-network:
-        ipv4_address: "10.20.0.16"
+        ipv4_address: "170.20.0.16"
 
 networks:
   ai-network:
-    external: true
-    name: ai-network
+    external:
+      name: ai-network
