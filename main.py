@@ -17,7 +17,7 @@ from prompt_building.brand_attribute import explanation_brand_attribute
 from prompt_building.channel_distribution import explanation_channel_dist
 from prompt_building.sentiment_breakdown import explanation_sentiment_breakdown
 from prompt_building.trend_line_mentions import explanation_data, explanation_chart
-from config import LOG_PATH
+from config import LOG_PATH, REDIS
 
 logs_dir = LOG_PATH
 os.makedirs(logs_dir, exist_ok=True)
@@ -32,7 +32,7 @@ logger.addHandler(handler)
 
 def get_redis_connection():
     # return redis.StrictRedis(host='0.0.0.0', port=16379, db=0)
-    return redis.StrictRedis(host='10.20.0.16', port=6379, db=0)
+    return redis.StrictRedis(host=REDIS, port=6379, db=0)
 
 
 def hash_body(body: dict) -> str:
