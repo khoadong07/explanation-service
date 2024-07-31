@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: explanation-service
+    ports:
+      - "9996:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file: .env
+    networks:
+      ai-network:
+        ipv4_address: "10.20.0.15"
+
+  redis:
+    image: redis:latest
+    container_name: redis-server
+    networks:
+      ai-network:
+        ipv4_address: "10.20.0.16"
+
+networks:
+  ai-network:
+    external: true
+    name: ai-network
