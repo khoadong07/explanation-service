@@ -23,30 +23,37 @@ def explanation_brand_attribute(content):
             "messages": [
                 {
                     "role": "user",
-                    "content": "Prompt: Trong phân tích dữ liệu từ lắng nghe mạng xã hội, tôi có dữ liệu như bên "
-                               "dưới. Trong đó là dữ liệu dùng để phân tích với thể hiện trên từng brand attribute "
-                               "thì lượng mention đến topic có số lượng như thế nào và phân bổ sắc thái hiện trên "
-                               "từng brand attribute đang thể hiện ra sao. Hãy phân tích dữ liệu bên dưới dây cho "
-                               "thấy được sự tương quan giữa các brand attribute, đồng thời đưa ra so sánh, "
-                               "tóm tắt và kết luận."
+                    "content": "Prompt: Tôi có dữ liệu từ lắng nghe mạng xã hội trong ngành [Tên thương hiệu/ngành] từ ngày [Ngày bắt đầu] đến ngày [Ngày kết thúc]. Dữ liệu bao gồm danh sách các bài đăng và thông tin chi tiết về tần suất nhắc đến và cảm xúc của người dùng. Hãy thực hiện phân tích theo các yêu cầu sau:"
                 },
                 {
                     "role": "user",
-                    "content": f"Hãy phân tích dữ liệu dưới đây, đảm bảo viết bằng tiếng Việt: {build_prompt(content)}"
+                    "content": "1. Tổng kết số lượt nhắc đến theo từng ngày và phân chia theo các loại cảm xúc (tích cực, trung lập, tiêu cực)."
                 },
                 {
                     "role": "user",
-                    "content": "Chuyển tất cả kết quả sang tiếng Việt, yêu cầu viết ngắn gọn xúc tích văn phong chỉnh chu."
+                    "content": "2. Xác định các bài đăng cụ thể đã tạo ra số lượt nhắc đến cao và cung cấp URL dẫn chứng từ danh sách bài đăng."
                 },
                 {
                     "role": "user",
-                    "content": "Viết lại văn bản trong văn phong của báo cáo chuyên nghiệp, chú ý lỗi chính tả và chuẩn format dưới dạng markdown"
+                    "content": "3. Đánh giá tác động của các sự kiện chính đối với số lượt nhắc đến, tập trung vào các sự kiện nổi bật như: [Sự kiện A], [Sự kiện B], [Sự kiện C],…"
                 },
                 {
                     "role": "user",
-                    "content": "Đảm bảo rằng nhận định được tạo ra từ dữ liệu được cung cấp, không được phép sáng tạo thêm các dữ liệu không có thật."
+                    "content": "4. Đánh giá cảm xúc theo từng ngày và phân tích sự thay đổi trong tần suất đề cập trong khoảng thời gian được phân tích."
+                },
+                {
+                    "role": "user",
+                    "content": "5. Cung cấp so sánh tổng quan giữa các sự kiện chính và ảnh hưởng của chúng đối với xu hướng nhắc đến thương hiệu/ngành."
+                },
+                {
+                    "role": "user",
+                    "content": "Đảm bảo rằng tất cả các nhận định được tạo ra dựa trên dữ liệu được cung cấp, không được phép sáng tạo thêm dữ liệu không có thật. Viết ngắn gọn, xúc tích và theo văn phong chuyên nghiệp, chú ý đúng chính tả và sử dụng định dạng markdown chuẩn."
+                },
+                {
+                    "role": f"Hãy phân tích dữ liệu sau: {content}"
                 }
             ]
+
         })
         headers = {
             'Accept': 'application/json',
