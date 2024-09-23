@@ -1,7 +1,4 @@
 import requests
-import json
-
-from aiohttp.client_reqrep import json_re
 
 
 def fetch_buzzes(indexes, labels, published_from, published_to, refresh_token, token):
