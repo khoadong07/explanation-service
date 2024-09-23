@@ -5,10 +5,12 @@ from hashlib import md5
 from logging.handlers import RotatingFileHandler
 
 import redis
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from cms_ai_insight.create_insight import gen_ai_create_insight
+from cms_ai_insight.models import BuzzRequest
 from models.brand_attribute import BrandAttributeData
 from models.channel_distribution import ChannelDistributionData
 from models.sentiment_breakdown import AnalysisResult
@@ -31,8 +33,8 @@ logger.addHandler(handler)
 
 
 def get_redis_connection():
-    # return redis.StrictRedis(host='0.0.0.0', port=16379, db=0)
-    return redis.StrictRedis(host=REDIS, port=6379, db=0)
+    return redis.StrictRedis(host='0.0.0.0', port=16379, db=0)
+    # return redis.StrictRedis(host=REDIS, port=6379, db=0)
 
 
 def hash_body(body: dict) -> str:
@@ -257,7 +259,24 @@ async def delete_all_cache():
     redis.close()
     return {"message": f"All keys deleted from cache: {keys_deleted}"}
 
+@app.post("/api/ai-insight")
+async def cms_ai_insight(
+    buzz_request: BuzzRequest,
+    x_refresh_token: str = Header(...),
+    x_token: str = Header(...),
+):
+    if not x_refresh_token or not x_token:
+        raise HTTPException(status_code=400, detail="Missing required headers")
 
+    if buzz_request.refresh_token is None:
+        buzz_request.refresh_token = x_refresh_token
+    if buzz_request.token is None:
+        buzz_request.token = x_token
+
+    result = gen_ai_create_insight(buzz_request, promt_file="cms_ai_insight/prompt.txt")
+    if result:
+        return success(message="AI insight processed successfully", data=result)
+    return bad_request(message="Fail", data=None)
 if __name__ == "__main__":
     import uvicorn
 
