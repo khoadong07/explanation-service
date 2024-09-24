@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(handler)
 
 
+
 def get_redis_connection():
     return redis.StrictRedis(host='0.0.0.0', port=16379, db=0)
     # return redis.StrictRedis(host=REDIS, port=6379, db=0)
@@ -74,6 +75,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from aiocache import caches, Cache
+from aiocache.plugins import HitMissRatioPlugin
+
+caches.set_config({
+    'default': {
+        'cache': "aiocache.RedisCache",
+        'endpoint': "0.0.0.0",
+        'port': 16379,
+        'db': 1,  # Use Redis database 1
+        'timeout': 1,  # Timeout for Redis operations
+        'serializer': {
+            'class': "aiocache.serializers.JsonSerializer"  # To serialize objects as JSON
+        },
+        'plugins': [
+            {'class': HitMissRatioPlugin}  # Optional plugin to track cache hits/misses
+        ]
+    }
+})
 
 def success(message: str, data: any):
     content = {
@@ -259,6 +278,7 @@ async def delete_all_cache():
     redis.close()
     return {"message": f"All keys deleted from cache: {keys_deleted}"}
 
+
 @app.post("/api/ai-insight")
 async def cms_ai_insight(
     buzz_request: BuzzRequest,
@@ -273,10 +293,24 @@ async def cms_ai_insight(
     if buzz_request.token is None:
         buzz_request.token = x_token
 
+    cache = caches.get('default')  # Get the configured Redis cache
+    cached_value = await cache.get("cache_ai_insight")  # Try to fetch cached data by key
+
+    if cached_value:
+        return success(message="AI insight processed successfully", data=cached_value)
+
     result = gen_ai_create_insight(buzz_request, promt_file="cms_ai_insight/prompt.txt")
     if result:
+        await cache.set("cache_ai_insight", result, ttl=300)  # Cache data for 60 seconds
         return success(message="AI insight processed successfully", data=result)
     return bad_request(message="Fail", data=None)
+
+@app.get("/api/ai-insight/clear-cache")
+async def clear_cache():
+    cache = caches.get('default')
+    await cache.delete("cache_ai_insight")  # Remove the cached item
+    return {"status": "cache cleared"}
+
 if __name__ == "__main__":
     import uvicorn
 

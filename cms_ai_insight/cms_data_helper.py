@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 
 
 def fetch_buzzes(indexes, labels, published_from, published_to, refresh_token, token):
@@ -101,5 +102,20 @@ def fetch_buzzes(indexes, labels, published_from, published_to, refresh_token, t
             if buzzes:
                 buzzes_data = buzzes.get('data')
                 if buzzes_data:
-                    return buzzes_data
+                    return convert_timestamps(buzzes_data)
     return None
+
+
+def convert_timestamps(data):
+    for item in data:
+        # Convert 'publishedDate'
+        published_ts = item['_source'].get('publishedDate')
+        if published_ts:
+            item['_source']['publishedDate'] = datetime.utcfromtimestamp(published_ts / 1000).strftime('%Y-%m-%d %H:%M:%S')
+
+        # Convert 'sentiment.createdAt'
+        sentiment_ts = item['_source']['sentiment'].get('createdAt')
+        if sentiment_ts:
+            item['_source']['sentiment']['createdAt'] = datetime.utcfromtimestamp(sentiment_ts / 1000).strftime('%Y-%m-%d %H:%M:%S')
+
+    return data
