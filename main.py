@@ -34,8 +34,8 @@ logger.addHandler(handler)
 
 
 def get_redis_connection():
-    return redis.StrictRedis(host='0.0.0.0', port=16379, db=0)
-    # return redis.StrictRedis(host=REDIS, port=6379, db=0)
+    # return redis.StrictRedis(host='0.0.0.0', port=16379, db=0)
+    return redis.StrictRedis(host=REDIS, port=6379, db=0)
 
 
 def hash_body(body: dict) -> str:
@@ -81,8 +81,8 @@ from aiocache.plugins import HitMissRatioPlugin
 caches.set_config({
     'default': {
         'cache': "aiocache.RedisCache",
-        'endpoint': "0.0.0.0",
-        'port': 16379,
+        'endpoint': REDIS,
+        'port': 6379,
         'db': 1,  # Use Redis database 1
         'timeout': 1,  # Timeout for Redis operations
         'serializer': {
