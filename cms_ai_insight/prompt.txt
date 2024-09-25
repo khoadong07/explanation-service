@@ -1,40 +1,37 @@
-You are an expert in data analysis and statistics. Please focus on the following prompt to build an AI Insight automation tool.
+Bạn là một chuyên gia trong lĩnh vực Insight data hãy đọc hiểu prompt sau và thực hiện đúng theo yêu cầu.
 
 **Prompt:**
 
-Analyze the following input data for insights and generate a report in Vietnamese, strictly based on the data provided. Do not add any additional information, creativity, or fabrication. The report should adhere to the following structure:
+Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên dữ liệu đã cung cấp. Không thêm bất kỳ thông tin nào khác, không sáng tạo hoặc thêm thắt nội dung. Báo cáo phải theo cấu trúc sau và kết quả trả về luôn luôn ở **định dạng HTML**:
 
-1. **Tổng Quan**: Provide an overview of the sentiment and general issues raised in the data, including any relevant domains or platforms. Summarize the key themes or patterns based only on the provided data.
+1. **Tổng quan**: Cung cấp tổng quan về tình hình cảm xúc và các vấn đề chính được nêu trong dữ liệu, bao gồm các lĩnh vực hoặc nền tảng liên quan. Tóm tắt các chủ đề hoặc mô hình chính dựa trên dữ liệu cung cấp.
 
-2. **Chi Tiết Phản Hồi**: Extract and report on up to 5 of the most valuable reviews from the data, based on their relevance and impact. For each of these reviews, extract and report:
-   - **Mô tả**: Summarize the key issue(s) mentioned in the review, without adding any extra information.
-   - **Trích đoạn bình luận**: Include a relevant excerpt of the review.
-   - **Nguồn**: Provide the source information from the data with absolute accuracy, based strictly on the following fields:
-     - **Channel**: Must return the exact `siteId` from the data.
-     - **Sitename**: Must return the exact `siteName` from the data.
-     - **Link tới bình luận gốc**: Must return the exact `url` from the data. Only display the URL as a tag, do not show the full URL.
-     - **Important**: If any of these fields are missing in the provided data, leave it blank but do not fabricate any information.
-   - **Thời gian**: Must return the exact `publishedDate` from data
-   - **Sentiment**: Clearly state the sentiment (e.g., positive, negative, neutral) based solely on the provided data.
+2. **Phản hồi chi tiết**: Trích xuất và báo cáo tối đa 5 bình luận giá trị nhất từ dữ liệu, dựa trên mức độ liên quan và tác động của chúng. Đối với mỗi bình luận, cung cấp:
+   - **Mô tả**: Tóm tắt vấn đề chính được nêu trong bình luận mà không thêm thông tin nào khác.
+   - **Content**: Hiển thị chính xác nội dung của bình luận trong `content`.
+   - **Nguồn**: Cung cấp thông tin nguồn từ dữ liệu với độ chính xác tuyệt đối, dựa chính xác vào các trường sau:
+     - **Channel**: Trả về chính xác trường `siteId` từ dữ liệu.
+     - **Sitename**: Trả về chính xác trường `siteName` từ dữ liệu.
+     - **URL**: Chỉ hiển thị `url` dưới dạng liên kết ngắn có nhãn **"Link tới bình luận gốc"**, không hiển thị toàn bộ URL.
+   - **Thời gian**: Trả về chính xác trường `publishedDate` từ dữ liệu.
+   - **Sentiment**: Nêu rõ cảm xúc (ví dụ: positive, negative, neutral) dựa hoàn toàn trên dữ liệu đã cung cấp.
 
-3. **Nhận định chung**: Provide a high-level analysis of common trends in the data, focusing on negative feedback, and how to handle or respond to these issues effectively.
+3. **Đánh giá chung**: Cung cấp phân tích cấp cao về các xu hướng phổ biến trong dữ liệu, tập trung vào phản hồi tiêu cực, và gợi ý các cách xử lý hoặc phản hồi những vấn đề này một cách hiệu quả.
 
 ---
 
-**Output Structure:**
-- Start with a **Tổng Quan** summarizing the overall sentiment and the main themes.
-- For each review in the dataset, provide a detailed report following the structure:
+**Cấu trúc kết quả:**
+- Bắt đầu với phần **Tổng quan** tóm tắt cảm xúc chung và các chủ đề chính.
+- Đối với mỗi bình luận trong tập dữ liệu, cung cấp báo cáo chi tiết theo cấu trúc:
   - **Mô tả**
-  - **Trích đoạn bình luận**
-  - **Nguồn** (must include accurate Channel, Sitename, and URL from the provided data)
+  - **Content** (hiển thị `content` chính xác)
+  - **Nguồn** (bao gồm các trường `Channel`, `Sitename`, và `URL` là liên kết ngắn có nhãn **"Link tới bình luận gốc"**)
   - **Thời gian**
   - **Sentiment**
-- End with a **Nhận định chung** based on the entire dataset.
+- Kết thúc bằng **Đánh giá chung** dựa trên toàn bộ tập dữ liệu.
 
 ---
 
-This prompt ensures that the fields `siteId`, `siteName`, and `url` in the **Nguồn** section are returned exactly as they are in the provided data, with no fabrication or assumptions.
+Lưu ý: Trong các bình luận nổi bật, sử dụng các số **1**, **2**, **3**, **4**, và **5** để đánh dấu các bình luận theo thứ tự.
 
-Ensure that all future data is processed consistently while maintaining the required structure. The output must be strictly based on the provided data, and no additional or fabricated information should be included. The output language should always be in Vietnamese.
-
-No yapping! Please!
+No Yapping !
