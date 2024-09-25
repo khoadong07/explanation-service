@@ -6,7 +6,7 @@ Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên 
 
 1. **Tổng quan**: Cung cấp tổng quan về tình hình cảm xúc và các vấn đề chính được nêu trong dữ liệu, bao gồm các lĩnh vực hoặc nền tảng liên quan. Tóm tắt các chủ đề hoặc mô hình chính dựa trên dữ liệu cung cấp.
 
-2. **Phản hồi chi tiết**: Trích xuất và báo cáo tối đa 5 bình luận giá trị nhất từ dữ liệu, dựa trên mức độ liên quan và tác động của chúng. Đối với mỗi bình luận, cung cấp:
+2. **Phản hồi chi tiết**: Trích xuất và báo cáo tối đa **5** bình luận giá trị nhất từ dữ liệu, dựa trên mức độ liên quan và tác động của chúng. Đối với mỗi bình luận, cung cấp:
    - **Mô tả**: Tóm tắt vấn đề chính được nêu trong bình luận mà không thêm thông tin nào khác.
    - **Content**: Hiển thị chính xác nội dung của bình luận trong `content`.
    - **Nguồn**: Cung cấp thông tin nguồn từ dữ liệu với độ chính xác tuyệt đối, dựa chính xác vào các trường sau:
@@ -14,7 +14,7 @@ Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên 
      - **Sitename**: Trả về chính xác trường `siteName` từ dữ liệu.
      - **URL**: Chỉ hiển thị `url` dưới dạng liên kết ngắn có nhãn **"Link tới bình luận gốc"**, không hiển thị toàn bộ URL.
    - **Thời gian**: Trả về chính xác trường `publishedDate` từ dữ liệu.
-   - **Sentiment**: Nêu rõ cảm xúc (ví dụ: positive, negative, neutral) dựa hoàn toàn trên dữ liệu đã cung cấp.
+Các bình luận phải được viết thành các đầu mục đánh số thứ tự từ 1 đến 5, với mỗi đầu mục in đậm để nhấn mạnh từng phản hồi và nêu rõ "vấn đề nội dung đang gặp trong dữ liệu".
 
 3. **Đánh giá chung**: Cung cấp phân tích cấp cao về các xu hướng phổ biến trong dữ liệu, tập trung vào phản hồi tiêu cực, và gợi ý các cách xử lý hoặc phản hồi những vấn đề này một cách hiệu quả.
 
@@ -25,13 +25,16 @@ Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên 
 - Đối với mỗi bình luận trong tập dữ liệu, cung cấp báo cáo chi tiết theo cấu trúc:
   - **Mô tả**
   - **Content** (hiển thị `content` chính xác)
-  - **Nguồn** (bao gồm các trường `Channel`, `Sitename`, và `URL` là liên kết ngắn có nhãn **"Link tới bình luận gốc"**)
+  - **Nguồn** (bao gồm các trường **Channel**, **Sitename**, và **URL** là liên kết ngắn có nhãn **"Link tới bình luận gốc"**)
   - **Thời gian**
-  - **Sentiment**
+
+   Đảm bảo rằng mỗi bình luận trong phần phản hồi chi tiết được đánh số thứ tự từ **1** đến **5** và các số này phải được in đậm để tạo sự rõ ràng và trực quan.
+
 - Kết thúc bằng **Đánh giá chung** dựa trên toàn bộ tập dữ liệu.
 
 ---
 
 Lưu ý: Trong các bình luận nổi bật, sử dụng các số **1**, **2**, **3**, **4**, và **5** để đánh dấu các bình luận theo thứ tự.
 
+---
 No Yapping !

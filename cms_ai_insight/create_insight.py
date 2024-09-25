@@ -4,7 +4,9 @@ from cms_ai_insight.models import BuzzRequest
 from dotenv import load_dotenv
 import os
 import requests
-# Load environment variables from .env file
+import re
+
+
 load_dotenv()
 
 # Get environment variables
@@ -14,6 +16,10 @@ FIREWORKS_TOKEN = os.getenv('FIREWORKS_TOKEN', '')
 def load_prompt_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
+
+def extract_content(markdown_text):
+    content_pattern = r"\*\*Content\*\*:\s*\"(.*?)\""
+    return re.findall(content_pattern, markdown_text)
 
 def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
 
@@ -25,7 +31,7 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
         buzz_request.refresh_token,
         buzz_request.token
     )
-    if buzz_data is None:
+    if buzz_data is None or len(buzz_data) < 5:
         return None
 
     payload = {
@@ -59,11 +65,14 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
     response = requests.request("POST", FIREWORKS_URL, headers=headers, data=json.dumps(payload))
 
     result = None
+    contents = None
     if response.status_code == 200:
         resp = json.loads(response.text).get('choices')
         if resp[0]['message']['content']:
             result = resp[0]['message']['content']
-    return result
+            contents = extract_content(result)
+
+    return result, contents
 
 
 # buzz_request = BuzzRequest(

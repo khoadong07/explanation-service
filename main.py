@@ -297,10 +297,14 @@ async def cms_ai_insight(
     if cached_value:
         return success(message="AI insight processed successfully", data=cached_value)
 
-    result = gen_ai_create_insight(buzz_request, promt_file="cms_ai_insight/prompt.txt")
+    result, contents = gen_ai_create_insight(buzz_request, promt_file="cms_ai_insight/prompt.txt")
     if result:
-        await cache.set(str(buzz_request.indexes), result, ttl=300)
-        return success(message="AI insight processed successfully", data=result)
+        results = {
+            "highlight_content": contents,
+            "insight_md": result
+        }
+        await cache.set(str(buzz_request.indexes), results, ttl=300)
+        return success(message="AI insight processed successfully", data=results)
     return bad_request(message="Fail", data=None)
 
 @app.get("/api/ai-insight/clear-cache")
