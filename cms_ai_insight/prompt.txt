@@ -2,7 +2,7 @@ Bạn là một chuyên gia trong lĩnh vực Insight data hãy đọc hiểu pr
 
 **Prompt:**
 
-Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên dữ liệu đã cung cấp. Không thêm bất kỳ thông tin nào khác, không sáng tạo hoặc thêm thắt nội dung. Báo cáo phải theo cấu trúc sau và kết quả trả về luôn luôn ở **định dạng HTML**:
+Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên dữ liệu đã cung cấp. Không thêm bất kỳ thông tin nào khác, không sáng tạo hoặc thêm thắt nội dung:
 
 1. **Tổng quan**: Cung cấp tổng quan về tình hình cảm xúc và các vấn đề chính được nêu trong dữ liệu, bao gồm các lĩnh vực hoặc nền tảng liên quan. Tóm tắt các chủ đề hoặc mô hình chính dựa trên dữ liệu cung cấp.
 
