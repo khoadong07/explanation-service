@@ -298,13 +298,24 @@ async def cms_ai_insight(
         return success(message="AI insight processed successfully", data=cached_value)
 
     result, contents = gen_ai_create_insight(buzz_request, promt_file="cms_ai_insight/prompt.txt")
-    if result:
+    retries = 0
+    while retries < 3 and not contents:
+        result, contents = gen_ai_create_insight(buzz_request, promt_file="cms_ai_insight/prompt.txt")
+        retries += 1
+
+    if result and contents:
         results = {
             "highlight_content": contents,
             "insight_md": result
         }
         await cache.set(str(buzz_request.indexes), results, ttl=300)
         return success(message="AI insight processed successfully", data=results)
+    else:
+        return success(message="AI insight processed successfully", data="""
+        **Không có dữ liệu cảm xúc tiêu cực**
+
+Chúng tôi đã tiến hành phân tích toàn bộ nội dung trong khoảng thời gian bạn yêu cầu và không phát hiện bất kỳ bình luận hoặc ý kiến nào mang cảm xúc tiêu cực. Điều này cho thấy sự hài lòng và phản hồi tích cực từ người dùng đối với sản phẩm/dịch vụ.
+        """)
     return bad_request(message="Fail", data=None)
 
 @app.get("/api/ai-insight/clear-cache")

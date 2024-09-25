@@ -12,10 +12,10 @@ Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên 
    - **Nguồn**: Cung cấp thông tin nguồn từ dữ liệu với độ chính xác tuyệt đối, dựa chính xác vào các trường sau:
      - **Channel**: Trả về chính xác trường `siteId` từ dữ liệu.
      - **Sitename**: Trả về chính xác trường `siteName` từ dữ liệu.
-     - **URL**: Chỉ hiển thị `url` dưới dạng liên kết ngắn có nhãn **"Link tới bình luận gốc"**, không hiển thị toàn bộ URL.
+     - **URL**: Luôn luôn hiển thị `url` dưới dạng liên kết ngắn có nhãn **"Link tới bình luận gốc"**, không được hiển thị toàn bộ URL.
    - **Thời gian**: Trả về chính xác trường `publishedDate` từ dữ liệu.
 
-Ở chi tiết mỗi phản hồi được đánh đầu mục theo định dạng  #### 1 <mô tả vấn đề> in đậm
+Ở chi tiết mỗi phản hồi được đánh đầu mục luôn theo định dạng  #### 1 <mô tả vấn đề> in đậm
 
 3. **Đánh giá chung**: Cung cấp phân tích cấp cao về các xu hướng phổ biến trong dữ liệu, tập trung vào phản hồi tiêu cực, và gợi ý các cách xử lý hoặc phản hồi những vấn đề này một cách hiệu quả.
 
@@ -28,7 +28,7 @@ Phân tích dữ liệu đầu vào và tạo báo cáo dựa hoàn toàn trên 
   - **Content** (hiển thị `content` chính xác)
   - **Nguồn** (bao gồm các trường **Channel**, **Sitename**, và **URL** là liên kết ngắn có nhãn **"Link tới bình luận gốc"**)
   - **Thời gian**
-Luôn luôn xuất hiện đầu mục và được format thứ tự theo định dạng #### 1
+Luôn luôn xuất hiện đầu mục và được format thứ tự luôn theo định dạng #### 1
 
 - Kết thúc bằng **Đánh giá chung** dựa trên toàn bộ tập dữ liệu.
 

@@ -31,8 +31,22 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
         buzz_request.refresh_token,
         buzz_request.token
     )
+    # print(buzz_data)
     if buzz_data is None or len(buzz_data) < 5:
-        return None
+        return None, None
+
+    extracted_data = []
+    for record in buzz_data:
+        source = record.get('_source', {})
+        data = {
+            'title': source.get('title', None),
+            'content': source.get('content', None),
+            'url': source.get('url', None),
+            'siteName': source.get('siteName', None),
+            'siteId': source.get('siteId', None),
+            'publishedDate': source.get('publishedDate', None)
+        }
+        extracted_data.append(data)
 
     payload = {
         "model": "accounts/fireworks/models/llama-v3p1-405b-instruct",
@@ -49,7 +63,7 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
             },
             {
                 "role": "user",
-                "content": f"Hãy phân tích data sau: {buzz_data}"
+                "content": f"Hãy phân tích data sau: {extracted_data}"
             },
             {
                 "role": "user",
