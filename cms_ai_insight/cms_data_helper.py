@@ -31,6 +31,7 @@ def fetch_buzzes(indexes, labels, published_from, published_to, refresh_token, t
                             parentId
                             parentDate
                             commentParentId
+                            interactions
                             sentiment {
                                 value
                                 createdAt

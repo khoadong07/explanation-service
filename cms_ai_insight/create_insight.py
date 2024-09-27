@@ -18,7 +18,7 @@ def load_prompt_file(file_path):
         return file.read()
 
 def extract_content(markdown_text):
-    content_pattern = r"\*\*Content\*\*:\s*\"(.*?)\""
+    content_pattern = r"\*\*Trích đoạn bình luận\*\*:\s*\"(.*?)\""
     return re.findall(content_pattern, markdown_text)
 
 def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
@@ -31,11 +31,15 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
         buzz_request.refresh_token,
         buzz_request.token
     )
+
+
     # print(buzz_data)
     if buzz_data is None or len(buzz_data) < 5:
         return None, None
 
     extracted_data = []
+
+
     for record in buzz_data:
         source = record.get('_source', {})
         data = {
@@ -44,10 +48,22 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
             'url': source.get('url', None),
             'siteName': source.get('siteName', None),
             'type': source.get('type', None),
-            'publishedDate': source.get('publishedDate', None)
+            'publishedDate': source.get('publishedDate', None),
+            'interactions': source.get('interactions', None)
         }
         extracted_data.append(data)
 
+    sorted_content = sorted(extracted_data, key=lambda x: int(x['interactions']) if x['interactions'] and x[
+        'interactions'].isdigit() else 0, reverse=True)
+
+    top_5_content = sorted_content[:5]
+
+    for entry in top_5_content:
+        entry.pop('interactions', None)
+
+    content_array = [entry['content'] for entry in top_5_content]
+    if len(content_array) < 5:
+        return None, None
     payload = {
         "model": "accounts/fireworks/models/llama-v3p1-405b-instruct",
         "max_tokens": 16384,
@@ -63,7 +79,7 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
             },
             {
                 "role": "user",
-                "content": f"Hãy phân tích data sau: {extracted_data}"
+                "content": f"Hãy phân tích data sau: {top_5_content}"
             },
             {
                 "role": "user",
@@ -77,16 +93,13 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
         "Authorization": f"Bearer {FIREWORKS_TOKEN}"
     }
     response = requests.request("POST", FIREWORKS_URL, headers=headers, data=json.dumps(payload))
-
     result = None
-    contents = None
     if response.status_code == 200:
         resp = json.loads(response.text).get('choices')
         if resp[0]['message']['content']:
             result = resp[0]['message']['content']
-            contents = extract_content(result)
 
-    return result, contents
+    return result, content_array
 
 
 # buzz_request = BuzzRequest(
