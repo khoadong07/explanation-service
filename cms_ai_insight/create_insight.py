@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import os
 import requests
 import re
-
+from datetime import datetime
 
 load_dotenv()
 
@@ -57,6 +57,10 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
         'interactions'].isdigit() else 0, reverse=True)
 
     top_5_content = sorted_content[:5]
+
+    top_5_content = sorted(top_5_content,
+                                  key=lambda x: datetime.strptime(x['publishedDate'], '%Y-%m-%d %H:%M:%S'))
+
 
     for entry in top_5_content:
         entry.pop('interactions', None)
