@@ -59,7 +59,8 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
     top_5_content = sorted_content[:5]
 
     top_5_content = sorted(top_5_content,
-                                  key=lambda x: datetime.strptime(x['publishedDate'], '%Y-%m-%d %H:%M:%S'))
+                                  key=lambda x: datetime.strptime(x['publishedDate'], '%Y-%m-%d %H:%M:%S'),
+                           reverse=True)
 
 
     for entry in top_5_content:
