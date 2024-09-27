@@ -43,7 +43,7 @@ def gen_ai_create_insight(buzz_request: BuzzRequest, promt_file):
             'content': source.get('content', None),
             'url': source.get('url', None),
             'siteName': source.get('siteName', None),
-            'siteId': source.get('siteId', None),
+            'type': source.get('type', None),
             'publishedDate': source.get('publishedDate', None)
         }
         extracted_data.append(data)
